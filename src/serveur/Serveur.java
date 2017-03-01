@@ -36,16 +36,25 @@ public class Serveur {
 		
 	}
 	
-	public static boolean userExists (Amateur user){
-		return users.containsKey(user.getUsername());
+	public static boolean userExists (String username){
+		return users.containsKey(username);
 	}
 	
-	public static void addUser(Amateur user){
-		users.put(user.getUsername(), user);
+	public static Amateur getUser (String username, String pass) throws Exception{
+		Amateur user = users.get(username);
+		if (user == null)
+			throw new Exception ("The user " + username + " does not exist.");
+		else if ( !user.getPassword().equals(pass))//Sha512 dat?
+			throw new Exception ("The password is incorrect.");
+		return user;
 	}
-	
-	public static Amateur getUser (String username){
-		return users.get(username);
+
+	public static Amateur addUser(String username, String pass) throws Exception {
+		if (userExists(username))
+			throw new Exception ("This user already exists");
+		Amateur user = new Amateur(username, pass);
+		users.put(username, user);
+		return user;
 	}
 
 }

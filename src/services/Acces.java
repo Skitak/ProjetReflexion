@@ -29,7 +29,7 @@ public abstract class Acces implements Runnable{
 	
 	protected void swapAcces (Class<? extends Acces> classe){
 		try {
-			classe.getDeclaredConstructor(new Class[]{Socket.class, Amateur.class}).newInstance(client, user);
+			classe.getDeclaredConstructor(new Class[]{Socket.class, Amateur.class}).newInstance(client, user).start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,9 +51,18 @@ public abstract class Acces implements Runnable{
 		}
 	}
 	
-	protected void quitter (){
+	protected void exit (){
 		inCommunication = false;
 		out.println("Fin de la connection au serveur.");
+	}
+	
+	protected Pair <String, String> getUserAndPass(){
+		Pair<String, String> user = new Pair<String, String>();
+		out.println("Username : ");
+		user.username = in.nextLine();
+		out.println("Password : ");
+		user.pass = in.nextLine();
+		return user;
 	}
 
 	protected abstract void clientResponse(int parseInt);
@@ -61,5 +70,10 @@ public abstract class Acces implements Runnable{
 	protected abstract void showServices();
 
 	protected abstract void welcomeMessage();
+	
+	class Pair<F, S> {
+	    protected F username;
+	    protected S pass;
+	}
 
 }
