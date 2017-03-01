@@ -19,13 +19,12 @@ public class Reader implements Runnable{
 
 	@Override
 	public void run() {
-		Scanner in = null;
+		Scanner in;
 		try {
-			in = new Scanner (serveur.getInputStream());
+			in = new Scanner(serveur.getInputStream());
 			
 			while(true){
-				String reponse = in.nextLine();
-				System.out.println(reponse);
+				System.out.println(in.nextLine());
 			}
 			
 		} catch (IOException e) {

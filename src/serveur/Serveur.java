@@ -28,6 +28,7 @@ public class Serveur {
 		while (true){
 			try {
 				new Connexion(listenSocket.accept()).start();
+				System.out.println("Nouvelle connexion!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
