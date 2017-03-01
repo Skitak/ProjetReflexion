@@ -9,9 +9,10 @@ import utilisateurs.Amateur;
 
 public abstract class Acces implements Runnable{
 
+	private boolean inCommunication = true;
+	
 	protected Socket client;
 	protected Amateur user;
-
 	protected PrintWriter out;
 	protected Scanner in;
 
@@ -32,7 +33,7 @@ public abstract class Acces implements Runnable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Thread.currentThread().interrupt();
+		inCommunication = false;
 	}
 
 	public void start (){
@@ -43,11 +44,16 @@ public abstract class Acces implements Runnable{
 	public void run() {
 		welcomeMessage();
 		String retour;
-		while (true){
+		while (inCommunication){
 			showServices();
 			retour = in.nextLine();
 			clientResponse(Integer.parseInt(retour));
 		}
+	}
+	
+	protected void quitter (){
+		inCommunication = false;
+		out.println("Fin de la connection au serveur.");
 	}
 
 	protected abstract void clientResponse(int parseInt);

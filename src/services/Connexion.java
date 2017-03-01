@@ -20,8 +20,25 @@ public class Connexion extends Acces{
 	}
 	@Override
 	protected void clientResponse (int i) {
+		switch (i){
+		case 1 :
+			swapAcces(AccesServices.class);
+			break;
+		case 2 :
+			connection();
+			break;
+		case 3: 
+			quitter();
+			break;
+		default:
+			out.println("La reponse " + " n'est pas une option valide.");
+		}
+	}
+	
+	private void connection() {
 		
 	}
+
 	@Override
 	protected void welcomeMessage() {
 		String reponse = "Hi, welcome to the connection service.";

@@ -24,7 +24,7 @@ public class AccesServices extends Acces{
 
 	@Override
 	protected void welcomeMessage() {
-		// TODO Auto-generated method stub
+		out.println("Hi! Here are all the services.");
 		
 	}
 
