@@ -9,23 +9,24 @@ import serveur.Serveur;
 
 public class App {
 	public static void main(String[] args) {
-		Socket s = null;		
+		Socket s = null;
 		try {
 			s = new Socket(Serveur.IP_ADDR, Serveur.PORT_CONNEXION);
-			PrintWriter out = new PrintWriter (s.getOutputStream ( ), true);
+			PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 			@SuppressWarnings("resource")
 			Scanner clavier = new Scanner(System.in);
 			String line;
 			new Reader(s).start();
-			while(true) {
+			while (true) {
 				line = clavier.nextLine();
 				out.println(line);
 			}
+		} catch (IOException e) {
+
 		}
-		catch (IOException e) {
-			
+		try {
+			s.close();
+		} catch (IOException e2) {
 		}
-		try {s.close(); } 
-		catch (IOException e2) { }		
 	}
 }
