@@ -5,19 +5,15 @@ import java.util.Vector;
 public class Programmeur extends Amateur {
 
 	private Vector<Service> services;
+	private String ftpName;
 
 	public Programmeur(Amateur ama) {
 		super(ama.getUsername(), ama.getPassword());
 		this.services = new Vector<Service>();
 	}
 
-	public String getServices() {
-		String rep = "";
-		for (Service srv : services) {
-			rep += srv.getName() + System.getProperty("line.separator");
-			;
-		}
-		return rep;
+	public Vector<Service> getServices() {
+		return services;
 	}
 
 	public void removeService(String name) {
@@ -26,6 +22,31 @@ public class Programmeur extends Amateur {
 				services.remove(i);
 			}
 		}
+	}
+	
+	public void addService(Service service){
+		services.add(service);
+		//TODO ajouter un service
+	}
+	
+	public Service getService(String nom){
+		if (services.contains(nom))
+			for(int i = 0; i < services.size(); ++i)
+				if (nom.equals(services.get(i).getName()))
+					return services.get(i);
+		return null;
+	}
+	
+	public void updateServices(){
+		//todo update services
+	}
+	
+	public void demarrerService(String nom){
+		getService(nom).setActive(true);
+	}
+	
+	public void stopperService(String nom){
+		getService(nom).setActive(false);
 	}
 
 }

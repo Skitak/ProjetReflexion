@@ -6,10 +6,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.Socket;
 
-public class Service {
+public class Service implements Comparable{
 
 	private String name;
 	private Class<? extends Runnable> theClass;
+	private boolean isActive;
 
 	public Service(String name, Class<? extends Runnable> filler) throws RuntimeException, NoSuchMethodException {
 		boolean constructor = false;
@@ -59,6 +60,17 @@ public class Service {
 
 	public void start() throws InstantiationException, IllegalAccessException {
 		this.theClass.newInstance().run();
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Service))
+			return 0;
+		return name.compareTo(((Service)o).name);
+	}
+	
+	public void setActive(boolean value){
+		isActive = value;
 	}
 
 }
