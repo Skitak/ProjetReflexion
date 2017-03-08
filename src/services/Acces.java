@@ -23,8 +23,7 @@ public abstract class Acces implements Runnable{
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new Scanner(socket.getInputStream());
 		}
-		catch (IOException e) {e.printStackTrace();}
-
+		catch (IOException e) {System.err.println("erreur à la création");}
 	}
 	
 	protected void swapAcces (Class<? extends Acces> classe){
@@ -32,6 +31,7 @@ public abstract class Acces implements Runnable{
 			classe.getDeclaredConstructor(new Class[]{Socket.class, Amateur.class}).newInstance(client, user).start();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("erreur à la création de la class");
 		}
 		inCommunication = false;
 	}
@@ -48,12 +48,6 @@ public abstract class Acces implements Runnable{
 			showServices();
 			retour = in.nextLine();
 			clientResponse(retour);
-		}
-		out.println("Revenez quand vous voulez.");
-		try {
-			client.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	

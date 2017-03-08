@@ -12,6 +12,7 @@ public class AccesProgrammeur extends Acces {
 
 	@Override
 	protected void clientResponse(String s) {
+		s.trim();
 		int i = Integer.parseInt(s);
 		switch (i){
 		case 1 :

@@ -11,6 +11,10 @@ public class Connexion extends Acces{
 	public Connexion(Socket socket) {
 		super(socket, null);
 	}
+	
+	public Connexion(Socket socket, Amateur user) {
+		super(socket, null);
+	}
 
 	@Override
 	protected void showServices() {
@@ -26,6 +30,7 @@ public class Connexion extends Acces{
 	
 	@Override
 	protected void clientResponse (String response) {
+		response.trim();
 		int i = Integer.parseInt(response);
 		switch (i){
 		case 1 :

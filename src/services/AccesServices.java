@@ -17,20 +17,27 @@ public class AccesServices extends Acces {
 
 	@Override
 	protected void clientResponse(String i) {
-		switch (i) {
-		case "1":
-			if (this.user == null) {
-				swapAcces(Connexion.class);
-			} else if (this.user.getClass() == Programmeur.class) {
-				swapAcces(AccesProgrammeur.class);
-			} else {
-				user = user.promote();
+		i.trim();
+		int nbr;
+		try{
+			nbr = Integer.parseInt(i);
+			switch (nbr) {
+			case 1:
+				if (user == null) {
+					swapAcces(Connexion.class);
+				} else if (user.getClass() == Programmeur.class) {
+					swapAcces(AccesProgrammeur.class);
+				} else {
+					user = user.promote();
+				}
+				break;
+			case 2:
+				exit();
+				break;
+			default:
+				out.println("La reponse " + i + " n'est pas une option valide.");
 			}
-			break;
-		case "2":
-			exit();
-			break;
-		default:
+		}catch (NumberFormatException e){
 			String[] split = i.split(".");
 			try {
 				Service srv = Serveur.getService(split[0], split[1]);
@@ -43,10 +50,9 @@ public class AccesServices extends Acces {
 						out.println("Le service est inactif");
 					}
 				}
-			} catch (Exception e) {
-				out.println("L'utilisateur conserné n'est pas un programmeur");
+			} catch (Exception e1) { //<---- Print l'erreur
+				out.println("L'utilisateur concerné n'est pas un programmeur");
 			}
-			out.println("La reponse " + i + " n'est pas une option valide.");
 		}
 	}
 
