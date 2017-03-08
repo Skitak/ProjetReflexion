@@ -1,15 +1,14 @@
 package client;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
 //Le reader ne fait que lire tout le temps en écrivant dans la console.
-public class Reader implements Runnable{
-	
+public class Reader implements Runnable {
+
 	private Socket serveur;
-	
-	public Reader (Socket serv){
+
+	public Reader(Socket serv) {
 		serveur = serv;
 	}
 
@@ -22,15 +21,15 @@ public class Reader implements Runnable{
 		Scanner in;
 		try {
 			in = new Scanner(serveur.getInputStream());
-			
-			while(true){
+
+			while (true) {
 				System.out.println(in.nextLine());
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Fin de la connexion avec le serveur.");
 		}
-		
+
 	}
 
 }

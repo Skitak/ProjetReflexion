@@ -11,16 +11,17 @@ public class AccesProgrammeur extends Acces {
 	}
 
 	@Override
-	protected void clientResponse(int i) {
+	protected void clientResponse(String s) {
+		int i = Integer.parseInt(s);
 		switch (i){
 		case 1 :
 			swapAcces(AccesServices.class);
 			break;
 		case 2 :
-			connexion();
+			// Completer
 			break;
 		case 3: 
-			createAccount();
+			// Completer	
 			break;
 		case 4: 
 			exit();
@@ -34,10 +35,7 @@ public class AccesProgrammeur extends Acces {
 	protected void showServices() {
 		String reponse = " 1 - Accéder aux services";
 		reponse += System.getProperty("line.separator");
-		reponse += " 2 - Connexion";
-		reponse += System.getProperty("line.separator");
-		reponse += " 3 - Création d'un compte utilisateur.";
-		reponse += System.getProperty("line.separator");
+		// Completer
 		reponse += " 4 - Quitter.";
 		out.println(reponse);
 		

@@ -1,5 +1,7 @@
 package utilisateurs;
 
+import serveur.Serveur;
+
 public class Amateur {
 
 	private String username;
@@ -16,6 +18,12 @@ public class Amateur {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public Programmeur promote() {
+		Programmeur p = new Programmeur(this);
+		Serveur.promote(this, p);
+		return p;
 	}
 
 }
