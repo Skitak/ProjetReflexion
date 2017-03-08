@@ -2,11 +2,12 @@ package serveur;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketAddress;
 import java.util.TreeMap;
 
 import services.Connexion;
 import utilisateurs.Amateur;
+import utilisateurs.Programmeur;
+import utilisateurs.Service;
 
 public class Serveur {
 
@@ -33,6 +34,19 @@ public class Serveur {
 			}
 		}
 
+	}
+
+	public static Service getService(String username, String servicename) throws Exception {
+		Programmeur p = (Programmeur) users.get(username);
+		if (p != null) {
+			return p.getService(servicename);
+		} else {
+			return null;
+		}
+	}
+
+	public static void promote(Amateur ama, Programmeur prog) {
+		users.replace(ama.getUsername(), prog);
 	}
 
 	public static TreeMap<String, Amateur> getUsers() {

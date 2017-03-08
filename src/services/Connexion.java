@@ -26,18 +26,18 @@ public class Connexion extends Acces{
 	}
 	
 	@Override
-	protected void clientResponse (int i) {
+	protected void clientResponse(String i) {
 		switch (i){
-		case 1 :
+		case "1" :
 			swapAcces(AccesServices.class);
 			break;
-		case 2 :
+		case "2" :
 			connexion();
 			break;
-		case 3: 
+		case "3": 
 			createAccount();
 			break;
-		case 4: 
+		case "4": 
 			exit();
 			break;
 		default:

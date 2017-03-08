@@ -16,21 +16,36 @@ public class AccesServices extends Acces {
 	}
 
 	@Override
-	protected void clientResponse(int i) {
+	protected void clientResponse(String i) {
 		switch (i) {
-		case 1:
-			swapAcces(AccesServices.class);
+		case "1":
+			if (this.user == null) {
+				swapAcces(Connexion.class);
+			} else if (this.user.getClass() == Programmeur.class) {
+				swapAcces(AccesProgrammeur.class);
+			} else {
+				user = user.promote();
+			}
 			break;
-		case 2:
-			connexion();
-			break;
-		case 3:
-			createAccount();
-			break;
-		case 4:
+		case "2":
 			exit();
 			break;
 		default:
+			String[] split = i.split(".");
+			try {
+				Service srv = Serveur.getService(split[0], split[1]);
+				if (srv == null) {
+					out.println("Les données rentrées sont érronées");
+				} else {
+					if (srv.isActive()) {
+						srv.start(); // Socket à passer en parametre
+					} else {
+						out.println("Le service est inactif");
+					}
+				}
+			} catch (Exception e) {
+				out.println("L'utilisateur conserné n'est pas un programmeur");
+			}
 			out.println("La reponse " + i + " n'est pas une option valide.");
 		}
 	}
@@ -62,8 +77,10 @@ public class AccesServices extends Acces {
 				Programmeur value = (Programmeur) entry.getValue();
 				Vector<Service> services = value.getServices();
 				for (Service srv : services) {
-					reponse += key + "." + srv.getName();
-					reponse += System.getProperty("line.separator");
+					if (srv.isActive()) {
+						reponse += key + "." + srv.getName();
+						reponse += System.getProperty("line.separator");
+					}
 				}
 			}
 		}
