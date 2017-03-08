@@ -13,7 +13,39 @@ public class Service implements Comparable{
 	private boolean isActive;
 
 	public Service(String name, Class<? extends Runnable> loadedClass) throws Exception {
-		
+		verifyClass(loadedClass);
+		this.name = name;
+		this.loadedClass = loadedClass;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Class<? extends Runnable> getLoadedClass() {
+		return loadedClass;
+	}
+
+	public void start() throws InstantiationException, IllegalAccessException {
+		this.loadedClass.newInstance().run();
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Service))
+			return 0;
+		return name.compareTo(((Service)o).name);
+	}
+
+	void setActive(boolean value){
+		isActive = value;
+	}
+
+	public boolean isActive(){
+		return isActive;
+	}
+
+	void verifyClass(Class<? extends Runnable> loadedClass) throws Exception{
 		boolean constructor = false;
 		boolean field = false;
 		int classMods = loadedClass.getModifiers();
@@ -47,40 +79,11 @@ public class Service implements Comparable{
 		if (!Modifier.isPublic(classMods)) {
 			throw new RuntimeException("Probleme au niveau de la classe");
 		}
-		
-		this.name = name;
-		this.loadedClass = loadedClass;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Class<? extends Runnable> getLoadedClass() {
-		return loadedClass;
-	}
-
-	public void start() throws InstantiationException, IllegalAccessException {
-		this.loadedClass.newInstance().run();
-	}
-
-	@Override
-	public int compareTo(Object o) {
-		if (!(o instanceof Service))
-			return 0;
-		return name.compareTo(((Service)o).name);
-	}
-
-	void setActive(boolean value){
-		isActive = value;
-	}
-
-	void deleteService() {
-		// TODO delete service
 	}
 	
-	public boolean isActive(){
-		return isActive;
+	void update(Class<? extends Runnable> loadedClass) throws Exception{
+		verifyClass(loadedClass);
+		this.loadedClass = loadedClass;
 	}
 
 }
