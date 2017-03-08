@@ -9,17 +9,18 @@ import java.net.Socket;
 public class Service implements Comparable{
 
 	private String name;
-	private Class<? extends Runnable> theClass;
+	private Class<? extends Runnable> loadedClass;
 	private boolean isActive;
 
-	public Service(String name, Class<? extends Runnable> filler) throws Exception {
+	public Service(String name, Class<? extends Runnable> loadedClass) throws Exception {
+		
 		boolean constructor = false;
 		boolean field = false;
-		int classMods = filler.getModifiers();
-		Constructor<?>[] constrs = filler.getConstructors();
-		Field[] fields = filler.getFields();
-		Method meth = filler.getMethod("toStringue");
-		int methMods = filler.getMethod("toStringue").getModifiers();
+		int classMods = loadedClass.getModifiers();
+		Constructor<?>[] constrs = loadedClass.getConstructors();
+		Field[] fields = loadedClass.getFields();
+		Method meth = loadedClass.getMethod("toStringue");
+		int methMods = loadedClass.getMethod("toStringue").getModifiers();
 		for (Constructor<?> c : constrs) {
 			if (!(c.getParameterTypes()[0] == Socket.class) || !(c.getParameterCount() == 1)
 					|| !(c.getExceptionTypes().length == 0) || !(Modifier.isPublic(c.getModifiers()))) {
@@ -46,20 +47,21 @@ public class Service implements Comparable{
 		if (!Modifier.isPublic(classMods)) {
 			throw new RuntimeException("Probleme au niveau de la classe");
 		}
+		
 		this.name = name;
-		this.theClass = filler;
+		this.loadedClass = loadedClass;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Class<? extends Runnable> getTheClass() {
-		return theClass;
+	public Class<? extends Runnable> getLoadedClass() {
+		return loadedClass;
 	}
 
 	public void start() throws InstantiationException, IllegalAccessException {
-		this.theClass.newInstance().run();
+		this.loadedClass.newInstance().run();
 	}
 
 	@Override
@@ -69,13 +71,16 @@ public class Service implements Comparable{
 		return name.compareTo(((Service)o).name);
 	}
 
-	public void setActive(boolean value){
+	void setActive(boolean value){
 		isActive = value;
 	}
 
-	public void deleteService() {
+	void deleteService() {
 		// TODO delete service
-
+	}
+	
+	public boolean isActive(){
+		return isActive;
 	}
 
 }
