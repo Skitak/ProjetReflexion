@@ -12,7 +12,7 @@ public class Service implements Comparable{
 	private Class<? extends Runnable> theClass;
 	private boolean isActive;
 
-	public Service(String name, Class<? extends Runnable> filler) throws RuntimeException, NoSuchMethodException {
+	public Service(String name, Class<? extends Runnable> filler) throws Exception {
 		boolean constructor = false;
 		boolean field = false;
 		int classMods = filler.getModifiers();
@@ -68,9 +68,14 @@ public class Service implements Comparable{
 			return 0;
 		return name.compareTo(((Service)o).name);
 	}
-	
+
 	public void setActive(boolean value){
 		isActive = value;
+	}
+
+	public void deleteService() {
+		// TODO delete service
+
 	}
 
 }

@@ -23,12 +23,12 @@ public class Programmeur extends Amateur {
 			}
 		}
 	}
-	
+
 	public void addService(Service service){
 		services.add(service);
 		//TODO ajouter un service
 	}
-	
+
 	public Service getService(String nom){
 		if (services.contains(nom))
 			for(int i = 0; i < services.size(); ++i)
@@ -36,17 +36,31 @@ public class Programmeur extends Amateur {
 					return services.get(i);
 		return null;
 	}
-	
+
 	public void updateServices(){
 		//todo update services
 	}
-	
+
 	public void demarrerService(String nom){
 		getService(nom).setActive(true);
 	}
-	
+
 	public void stopperService(String nom){
 		getService(nom).setActive(false);
+	}
+
+	public void setFtpName(String nom){
+		ftpName = nom;
+	}
+
+	public String getFtpName(){
+		return ftpName;
+	}
+
+	public void deleteService(String name){
+		Service service = getService(name);
+		service.deleteService();
+		services.remove(service);
 	}
 
 }

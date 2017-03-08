@@ -47,7 +47,7 @@ public abstract class Acces implements Runnable{
 		while (inCommunication){
 			showServices();
 			retour = in.nextLine();
-			clientResponse(Integer.parseInt(retour));
+			clientResponse(retour);
 		}
 		out.println("Revenez quand vous voulez.");
 		try {
@@ -70,7 +70,7 @@ public abstract class Acces implements Runnable{
 		return user;
 	}
 
-	protected abstract void clientResponse(int parseInt);
+	protected abstract void clientResponse(String reponse);
 
 	protected abstract void showServices();
 
