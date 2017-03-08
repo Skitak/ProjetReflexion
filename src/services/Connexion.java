@@ -62,6 +62,7 @@ public class Connexion extends Acces{
 		swapAcces(AccesServices.class);
 	}
 
+	@SuppressWarnings("null")
 	private void connection() {
 		Amateur userConnected = null;
 		while (userConnected != null){
