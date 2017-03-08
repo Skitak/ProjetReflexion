@@ -24,6 +24,15 @@ public class AccesProgrammeur extends Acces {
 			// Completer	
 			break;
 		case 4: 
+			// Completer	
+			break;
+		case 5: 
+			// Completer	
+			break;
+		case 6: 
+			// Completer	
+			break;
+		case 7: 
 			exit();
 			break;
 		default:
@@ -33,10 +42,19 @@ public class AccesProgrammeur extends Acces {
 
 	@Override
 	protected void showServices() {
-		String reponse = " 1 - Accéder aux services";
+		String reponse = "1 - Accéder aux services";
 		reponse += System.getProperty("line.separator");
-		// Completer
-		reponse += " 4 - Quitter.";
+		reponse += "2 - Fournir un nouveau service";
+		reponse += System.getProperty("line.separator");
+		reponse += "3 - Mettre à jour un service";
+		reponse += System.getProperty("line.separator");
+		reponse += "4 - Déclarer un changement d'adresse de serveur FTP";
+		reponse += System.getProperty("line.separator");
+		reponse += "5 - Démarrer un service";
+		reponse += System.getProperty("line.separator");
+		reponse += "6 - Arrêter un service";
+		reponse += System.getProperty("line.separator");
+		reponse += "7 - Quitter.";
 		out.println(reponse);
 		
 	}

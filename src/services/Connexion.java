@@ -14,13 +14,13 @@ public class Connexion extends Acces{
 
 	@Override
 	protected void showServices() {
-		String reponse = " 1 - Accéder aux services";
+		String reponse = "1 - Accéder aux services";
 		reponse += System.getProperty("line.separator");
-		reponse += " 2 - Connexion";
+		reponse += "2 - Connexion";
 		reponse += System.getProperty("line.separator");
-		reponse += " 3 - Création d'un compte utilisateur.";
+		reponse += "3 - Création d'un compte utilisateur.";
 		reponse += System.getProperty("line.separator");
-		reponse += " 4 - Quitter.";
+		reponse += "4 - Quitter.";
 		out.println(reponse);
 	}
 	
