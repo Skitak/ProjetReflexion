@@ -23,8 +23,8 @@ public class Connexion extends Acces{
 		reponse += System.getProperty("line.separator");
 		reponse += " 4 - Quitter.";
 		out.println(reponse);
-
 	}
+	
 	@Override
 	protected void clientResponse (int i) {
 		switch (i){

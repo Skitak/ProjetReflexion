@@ -11,14 +11,36 @@ public class AccesServices extends Acces{
 	}
 
 	@Override
-	protected void clientResponse(int parseInt) {
-		// TODO Auto-generated method stub
+	protected void clientResponse(int i) {
+		switch (i){
+		case 1 :
+			swapAcces(AccesServices.class);
+			break;
+		case 2 :
+			connexion();
+			break;
+		case 3: 
+			createAccount();
+			break;
+		case 4: 
+			exit();
+			break;
+		default:
+			out.println("La reponse " + i + " n'est pas une option valide.");
+		}
 		
 	}
 
 	@Override
 	protected void showServices() {
-		// TODO Auto-generated method stub
+		String reponse = " 1 - Accéder aux services";
+		reponse += System.getProperty("line.separator");
+		reponse += " 2 - Connexion";
+		reponse += System.getProperty("line.separator");
+		reponse += " 3 - Création d'un compte utilisateur.";
+		reponse += System.getProperty("line.separator");
+		reponse += " 4 - Quitter.";
+		out.println(reponse);
 		
 	}
 
