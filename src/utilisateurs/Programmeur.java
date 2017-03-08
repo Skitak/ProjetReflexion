@@ -18,15 +18,7 @@ public class Programmeur extends Amateur {
 	public Vector<Service> getServices() {
 		return services;
 	}
-
-	public void removeService(String name) {
-		for (int i = 0; i < services.size(); i++) {
-			if (services.get(i).getName().equals(name)) {
-				services.remove(i);
-			}
-		}
-	}
-
+	
 	public void addService(String nom) throws Exception{
 		if (getService(nom) != null)
 			throw new Exception("Vous avez deja un service à ce nom.");
@@ -48,8 +40,33 @@ public class Programmeur extends Amateur {
 		return null;
 	}
 
-	public void updateServices(){
-		//todo update services
+	public String updateServices(){
+		String response = "";
+		for (Service service : services){
+			Class<? extends Runnable> loadedClass = null;
+			try {
+				loadedClass = (Class<? extends Runnable>)ftp.loadClass(getUsername());
+			} catch (ClassNotFoundException e){
+				response += System.getProperty("line.separator");
+				response += "La class " + service.getName() +" n'a pas été trouvé.";
+				deleteService(service);
+			}
+			
+			try {
+				service.update(loadedClass);
+				response += System.getProperty("line.separator");
+				response += "La service " + service + " a bien été mis à jour.";
+			} catch (Exception e){
+				response += System.getProperty("line.separator");
+				response += "La class " + service.getName() + " a rencontré l'erreur suivante : ";
+				response += System.getProperty("line.separator");
+				response += e.getMessage();
+				deleteService(service);
+			}
+		}
+		response += System.getProperty("line.separator");
+		response += "Les services sont mis à jour.";
+		return response;
 	}
 
 	public void demarrerService(String nom){
@@ -72,7 +89,10 @@ public class Programmeur extends Amateur {
 
 	public void deleteService(String name){
 		Service service = getService(name);
-		service.deleteService();
+		deleteService(service);
+	}
+	
+	public void deleteService(Service service){
 		services.remove(service);
 	}
 
