@@ -27,7 +27,7 @@ public class Reader implements Runnable{
 				System.out.println(in.nextLine());
 			}
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("Fin de la connexion avec le serveur.");
 		}
 		

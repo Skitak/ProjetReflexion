@@ -49,11 +49,16 @@ public abstract class Acces implements Runnable{
 			retour = in.nextLine();
 			clientResponse(Integer.parseInt(retour));
 		}
+		out.println("Revenez quand vous voulez.");
+		try {
+			client.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	protected void exit (){
 		inCommunication = false;
-		out.println("Fin de la connection au serveur.");
 	}
 	
 	protected Pair <String, String> getUserAndPass(){

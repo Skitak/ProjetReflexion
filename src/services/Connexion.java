@@ -32,7 +32,7 @@ public class Connexion extends Acces{
 			swapAcces(AccesServices.class);
 			break;
 		case 2 :
-			connection();
+			connexion();
 			break;
 		case 3: 
 			createAccount();
@@ -62,15 +62,14 @@ public class Connexion extends Acces{
 		swapAcces(AccesServices.class);
 	}
 
-	@SuppressWarnings("null")
-	private void connection() {
+	private void connexion() {
 		Amateur userConnected = null;
-		while (userConnected != null){
+		while (userConnected == null){
 			Pair<String, String> user = getUserAndPass();
 			try {
 				userConnected = Serveur.getUser(user.username, user.pass);
 			} catch (Exception e) {
-				out.println(e);
+				out.println();
 				out.println("Quit?(y)");
 				if (in.nextLine().equals("y"))
 					return;
