@@ -26,7 +26,12 @@ public class Connexion extends Acces{
 	}
 	
 	@Override
+<<<<<<< HEAD
 	protected void clientResponse(String i) {
+=======
+	protected void clientResponse (String response) {
+		int i = Integer.parseInt(response);
+>>>>>>> 0797c5313066c6bf43988ca90fbc959ce022caac
 		switch (i){
 		case "1" :
 			swapAcces(AccesServices.class);

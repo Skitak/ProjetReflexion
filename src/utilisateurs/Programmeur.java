@@ -1,11 +1,14 @@
 package utilisateurs;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Vector;
 
 public class Programmeur extends Amateur {
 
 	private Vector<Service> services;
-	private String ftpName;
+	private URLClassLoader ftp;
 
 	public Programmeur(Amateur ama) {
 		super(ama.getUsername(), ama.getPassword());
@@ -24,8 +27,16 @@ public class Programmeur extends Amateur {
 		}
 	}
 
-	public void addService(Service service){
-		services.add(service);
+	public void addService(String nom) throws Exception{
+		if (getService(nom) != null)
+			throw new Exception("Vous avez deja un service à ce nom.");
+		Class<? extends Runnable> classeChargée = null;
+		try {
+			classeChargée = (Class<? extends Runnable>)ftp.loadClass(nom);
+		} catch (ClassNotFoundException e){
+			throw new ClassNotFoundException("La class n'a pas été trouvé.");
+		}
+		services.add(new Service(getUsername(),classeChargée));
 		//TODO ajouter un service
 	}
 
@@ -49,12 +60,14 @@ public class Programmeur extends Amateur {
 		getService(nom).setActive(false);
 	}
 
-	public void setFtpName(String nom){
-		ftpName = nom;
+	public void setFtpName(String nom) throws MalformedURLException{
+		ftp = new URLClassLoader(new URL [] {
+				new URL (nom)
+		});
 	}
 
 	public String getFtpName(){
-		return ftpName;
+		return ftp.getURLs()[0].getPath();
 	}
 
 	public void deleteService(String name){
