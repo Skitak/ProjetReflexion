@@ -51,43 +51,42 @@ public class Connexion extends Acces{
 	}
 
 	private void createAccount() {
-		Amateur userConnected = null;
-		while (userConnected == null){
-			Pair<String, String> user = getUserAndPass();
+		while (user == null){
+			Pair<String, String> connectionUser = getUserAndPass();
 			try {
-				userConnected = Serveur.addUser(user.username, user.pass);
+				user = Serveur.addUser(connectionUser.username, connectionUser.pass);
 			} catch (Exception e) {
-				out.println(e);
-				out.println("Quitter la création de compte?(o)");
+				out.println(e.getMessage());
+				out.println("Retour?(o)");
 				if (in.nextLine().equals("o"))
 					return;
 			}
 		}
-		out.println("Vous avez créé votre compte.");
+		out.println("Vous avez créé votre compte au nom de " + user.getUsername() + " ne perdez pas votre mot de passe!");
 		swapAcces(AccesServices.class);
 	}
 
 	private void connexion() {
-		Amateur userConnected = null;
-		while (userConnected == null){
-			Pair<String, String> user = getUserAndPass();
+		while (user == null){
+			Pair<String, String> newUser = getUserAndPass();
 			try {
-				userConnected = Serveur.getUser(user.username, user.pass);
+				user = Serveur.getUser(newUser.username, newUser.pass);
 			} catch (Exception e) {
-				out.println();
-				out.println("Quit?(y)");
-				if (in.nextLine().equals("y"))
+				out.println(e.getMessage());
+				out.println("Retour?(o)");
+				if (in.nextLine().equals("o"))
 					return;
 			}
 		}
-		if (userConnected.getClass() == Programmeur.class)
+		if (user.getClass() == Programmeur.class)
 			swapAcces(AccesProgrammeur.class);
 		else swapAcces(AccesServices.class);
 	}
 
 	@Override
 	protected void welcomeMessage() {
-		String reponse = "Hi, welcome to the connection service.";
+		String reponse = "Bonjour et bienvenue aux services de connexion.";
+		reponse += System.getProperty("line.separator");
 		out.println(reponse); 
 	}
 

@@ -86,11 +86,12 @@ public class AccesProgrammeur extends Acces {
 	private void arretService() {
 		out.println("Quel service voulez vous arrêter?");
 		visionnerServices();
-		out.print(prog.getServices().size() + " - Retour");
-		String resultat = read();
+		out.println(prog.getServices().size() + " - Retour");
+		String resultat = null;
 		int service = -1;
 		while (service < 0 || service > prog.getServices().size()){
 			try {
+				resultat = read();
 				service = Integer.parseInt(resultat);
 			} catch (Exception e){
 				out.println(resultat + " n'est pas une valeur valide.");
@@ -109,11 +110,12 @@ public class AccesProgrammeur extends Acces {
 	private void demarrerService() {
 		out.println("Quel service voulez vous démarer?");
 		visionnerServices();
-		out.print(prog.getServices().size() + " - Retour");
-		String resultat = read();
+		out.println(prog.getServices().size() + " - Retour");
+		String resultat = null;
 		int service = -1;
 		while (service < 0 || service > prog.getServices().size()){
 			try {
+				resultat = read();
 				service = Integer.parseInt(resultat);
 			} catch (Exception e){
 				out.println("Ceci n'est pas une valeur valide.");

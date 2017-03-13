@@ -60,15 +60,15 @@ public class Serveur {
 	public static Amateur getUser(String username, String pass) throws Exception {
 		Amateur user = users.get(username);
 		if (user == null)
-			throw new Exception("The user " + username + " does not exist.");
+			throw new Exception("L'utilisateur  " + username + " n'existe pas.");
 		else if (!user.getPassword().equals(pass))// Sha512 dat?
-			throw new Exception("The password is incorrect.");
+			throw new Exception("Le mot de pass est incorrect.");
 		return user;
 	}
 
 	public static Amateur addUser(String username, String pass) throws Exception {
 		if (userExists(username))
-			throw new Exception("This user already exists");
+			throw new Exception(username + " existe déjà.");
 		Amateur user = new Amateur(username, pass);
 		users.put(username, user);
 		return user;

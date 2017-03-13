@@ -46,13 +46,21 @@ public abstract class Acces implements Runnable{
 		String retour;
 		while (inCommunication){
 			showServices();
-			retour = in.nextLine();
+			retour = read();
 			clientResponse(retour);
 		}
 	}
 	
 	protected void exit (){
 		inCommunication = false;
+		try {
+			client.close();
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected String read (){
@@ -63,9 +71,9 @@ public abstract class Acces implements Runnable{
 	protected Pair <String, String> getUserAndPass(){
 		Pair<String, String> user = new Pair<String, String>();
 		out.println("Username : ");
-		user.username = in.nextLine();
+		user.username = read();
 		out.println("Password : ");
-		user.pass = in.nextLine();
+		user.pass = read();
 		return user;
 	}
 

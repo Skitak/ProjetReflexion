@@ -22,11 +22,11 @@ public class App {
 				out.println(line);
 			}
 		} catch (IOException e) {
-
-		}
-		try {
-			s.close();
-		} catch (IOException e2) {
+			try {
+				s.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
