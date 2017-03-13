@@ -10,7 +10,7 @@ public class Service implements Comparable{
 
 	private String name;
 	private Class<? extends Runnable> loadedClass;
-	private boolean isActive;
+	private boolean isActive = false;
 
 	public Service(String name, Class<? extends Runnable> loadedClass) throws Exception {
 		verifyClass(loadedClass);
@@ -84,6 +84,10 @@ public class Service implements Comparable{
 	void update(Class<? extends Runnable> loadedClass) throws Exception{
 		verifyClass(loadedClass);
 		this.loadedClass = loadedClass;
+	}
+	
+	public String toString(){
+		return loadedClass.toString();
 	}
 
 }

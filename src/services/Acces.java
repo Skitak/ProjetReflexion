@@ -55,6 +55,11 @@ public abstract class Acces implements Runnable{
 		inCommunication = false;
 	}
 	
+	protected String read (){
+		out.flush();
+		return in.nextLine();
+	}
+	
 	protected Pair <String, String> getUserAndPass(){
 		Pair<String, String> user = new Pair<String, String>();
 		out.println("Username : ");
