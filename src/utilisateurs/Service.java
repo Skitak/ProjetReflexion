@@ -10,10 +10,10 @@ import java.net.Socket;
 public class Service implements Comparable{
 
 	private String name;
-	private Class<? extends Runnable> loadedClass;
+	private Class<? extends blti.Service> loadedClass;
 	private boolean isActive = false;
 
-	public Service(String name, Class<? extends Runnable> loadedClass) throws Exception {
+	public Service(String name, Class<? extends blti.Service> loadedClass) throws Exception {
 		verifyClass(loadedClass);
 		this.name = name;
 		this.loadedClass = loadedClass;
@@ -23,12 +23,12 @@ public class Service implements Comparable{
 		return name;
 	}
 
-	public Class<? extends Runnable> getLoadedClass() {
+	public Class<? extends blti.Service> getLoadedClass() {
 		return loadedClass;
 	}
 
 	public void start(Socket client) throws Exception {
-		this.loadedClass.getConstructor(Socket.class).newInstance(client);
+		this.loadedClass.getConstructor(Socket.class).newInstance(client).run();
 	}
 
 	@Override
@@ -46,31 +46,31 @@ public class Service implements Comparable{
 		return isActive;
 	}
 
-	void verifyClass(Class<? extends Runnable> loadedClass) throws Exception{
-		if (Modifier.isPrivate(loadedClass.getModifiers()))
+	void verifyClass(Class<? extends blti.Service> loadedClass2) throws Exception{
+		if (Modifier.isPrivate(loadedClass2.getModifiers()))
 			throw new Exception("La class est privée et ne respecte donc pas la norme BLTi");
 
 		boolean hasRightConstructor = false;
 
-		for (Constructor<?> m : loadedClass.getConstructors())
+		for (Constructor<?> m : loadedClass2.getConstructors())
 			if ( m.getParameterTypes().length == 1 && m.getParameterTypes()[0] == Socket.class && m.getParameterTypes().length == 1 && m.getExceptionTypes().length == 0)
 				hasRightConstructor = true;
 		if (!hasRightConstructor)
 			throw new Exception("La class ne possède pas de concstructeur correct et ne respecte donc pas la norme BLTi");
 
 		boolean hasSocketField = false;
-		for (Field f : loadedClass.getDeclaredFields()){
+		for (Field f : loadedClass2.getDeclaredFields()){
 			if (f.getType() == Socket.class && Modifier.isFinal(f.getModifiers()) && Modifier.isPrivate(f.getModifiers()))
 				hasSocketField = true;
 		}
 		if (!hasSocketField)
 			throw new Exception("La class ne possède pas d'attribut socket privée final et ne respecte donc pas la norme BLTi");
 
-		if (!Modifier.isStatic((loadedClass.getMethod("toStringue",(Class<?>[]) null).getModifiers())))
+		if (!Modifier.isStatic((loadedClass2.getMethod("toStringue",(Class<?>[]) null).getModifiers())))
 			throw new Exception("La class ne possède pas de méthode toStringue static et ne respecte donc pas la norme BLTi");
 	}
 	
-	void update(Class<? extends Runnable> loadedClass) throws Exception{
+	void update(Class<? extends blti.Service> loadedClass) throws Exception{
 		verifyClass(loadedClass);
 		this.loadedClass = loadedClass;
 	}

@@ -16,8 +16,8 @@ public class App {
 			@SuppressWarnings("resource")
 			Scanner clavier = new Scanner(System.in);
 			String line;
-			new Reader(s).start();
-			while (true) {
+			new Reader(s, out).start();
+			while (!s.isClosed()) {
 				line = clavier.nextLine();
 				out.println(line);
 			}

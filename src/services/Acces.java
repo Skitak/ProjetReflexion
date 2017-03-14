@@ -10,11 +10,12 @@ import utilisateurs.Amateur;
 public abstract class Acces implements Runnable{
 
 	private boolean inCommunication = true;
-	
+
 	protected Socket client;
 	protected Amateur user;
 	protected PrintWriter out;
 	protected Scanner in;
+	protected boolean clientInCommunication;	//Si le client parle à un service externe
 
 	public Acces(Socket socket, Amateur user) {
 		this.client = socket;
@@ -25,7 +26,7 @@ public abstract class Acces implements Runnable{
 		}
 		catch (IOException e) {System.err.println("erreur à la création");}
 	}
-	
+
 	protected void swapAcces (Class<? extends Acces> classe){
 		try {
 			classe.getDeclaredConstructor(new Class[]{Socket.class, Amateur.class}).newInstance(client, user).start();
@@ -39,18 +40,27 @@ public abstract class Acces implements Runnable{
 	public void start (){
 		new Thread(this).start();
 	}
-	
+
 	@Override
 	public void run() {
 		welcomeMessage();
 		String retour;
-		while (inCommunication){
-			showServices();
-			retour = read();
-			clientResponse(retour);
+		while (inCommunication && !client.isClosed()){
+			if (!clientInCommunication){
+				showServices();
+				retour = read();
+				clientResponse(retour);
+			}
+			else {
+				String rep = "";
+				while (!client.isClosed() && !rep.equals("-end-")) {
+					rep = in.nextLine();
+					out.println("oui!" + rep);
+				}
+			}
 		}
 	}
-	
+
 	protected void exit (){
 		inCommunication = false;
 		try {
@@ -62,12 +72,12 @@ public abstract class Acces implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected String read (){
 		out.flush();
 		return in.nextLine();
 	}
-	
+
 	protected Pair <String, String> getUserAndPass(){
 		Pair<String, String> user = new Pair<String, String>();
 		out.println("Username : ");
@@ -82,10 +92,10 @@ public abstract class Acces implements Runnable{
 	protected abstract void showServices();
 
 	protected abstract void welcomeMessage();
-	
+
 	class Pair<F, S> {
-	    protected F username;
-	    protected S pass;
+		protected F username;
+		protected S pass;
 	}
 
 }

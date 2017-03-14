@@ -166,6 +166,7 @@ public class AccesProgrammeur extends Acces {
 			return;
 		try {
 			prog.updateService(service);
+			out.println("Le service a été mis à jour.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			out.println(e.getMessage());
@@ -178,6 +179,8 @@ public class AccesProgrammeur extends Acces {
 		String service = read();
 		try {
 			prog.addService(service);
+			out.println("Le service " + service + " a bien été ajouté.");
+			out.println("Pensez à le démarrer! (Les services ne sont pas actifs par défaut).");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			out.println(e.getMessage());

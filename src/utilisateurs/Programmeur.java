@@ -22,20 +22,19 @@ public class Programmeur extends Amateur {
 	public void addService(String nom) throws Exception{
 		if (getService(nom) != null)
 			throw new Exception("Vous avez deja un service à ce nom.");
-		Class<? extends Runnable> classeChargée = null;
+		Class<? extends blti.Service> classeChargée = null;
 		try {
-			classeChargée = (Class<? extends Runnable>)ftp.loadClass(nom);
+			classeChargée = (Class<? extends blti.Service>)ftp.loadClass(nom);
 		} catch (ClassNotFoundException e){
 			throw new ClassNotFoundException("La class n'a pas été trouvé." + e.getMessage());
 		}
-		services.add(new Service(getUsername(),classeChargée));
+		services.add(new Service(nom,classeChargée));
 	}
 
 	public Service getService(String nom){
-		if (services.contains(nom))
-			for(int i = 0; i < services.size(); ++i)
-				if (nom.equals(services.get(i).getName()))
-					return services.get(i);
+		for(int i = 0; i < services.size(); ++i)
+			if (nom.equals(services.get(i).getName()))
+				return services.get(i);
 		return null;
 	}
 
@@ -97,9 +96,9 @@ public class Programmeur extends Amateur {
 
 	@SuppressWarnings("unchecked")
 	public void updateService(int service) throws Exception {
-		Class<? extends Runnable> loadedClass = null;
+		Class<? extends blti.Service> loadedClass = null;
 		try {
-			loadedClass = (Class<? extends Runnable>)ftp.loadClass(getUsername());
+			loadedClass = (Class<? extends blti.Service>)ftp.loadClass(getUsername());
 		} catch (Exception e){
 			throw new Exception("La class " + getService(service).getName() +" n'a pas été trouvé.") ;
 		}
