@@ -26,10 +26,9 @@ public class Programmeur extends Amateur {
 		try {
 			classeChargée = (Class<? extends Runnable>)ftp.loadClass(nom);
 		} catch (ClassNotFoundException e){
-			throw new ClassNotFoundException("La class n'a pas été trouvé.");
+			throw new ClassNotFoundException("La class n'a pas été trouvé." + e.getMessage());
 		}
 		services.add(new Service(getUsername(),classeChargée));
-		//TODO ajouter un service
 	}
 
 	public Service getService(String nom){

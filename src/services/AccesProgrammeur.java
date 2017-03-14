@@ -41,7 +41,12 @@ public class AccesProgrammeur extends Acces {
 	@Override
 	protected void clientResponse(String s) {
 		s.trim();
-		int i = Integer.parseInt(s);
+		int i = 0;
+		try{
+		i = Integer.parseInt(s);
+		} catch (Exception e) {
+			//reponse non valide
+		}
 		switch (i){
 		case 1 :
 			swapAcces(AccesServices.class);
@@ -72,7 +77,7 @@ public class AccesProgrammeur extends Acces {
 			exit();
 			break;
 		default:
-			out.println("La reponse " + i + " n'est pas une option valide.");
+			out.println("La reponse " + s + " n'est pas une option valide.");
 		}
 	}
 
