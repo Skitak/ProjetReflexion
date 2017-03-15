@@ -6,12 +6,12 @@ import serveur.Serveur;
 import utilisateurs.Amateur;
 import utilisateurs.Programmeur;
 
-public class Connexion extends Acces{
+public class Connexion extends Acces {
 
 	public Connexion(Socket socket) {
 		super(socket, null);
 	}
-	
+
 	public Connexion(Socket socket, Amateur user) {
 		super(socket, null);
 	}
@@ -24,25 +24,25 @@ public class Connexion extends Acces{
 		reponse += System.getProperty("line.separator");
 		reponse += "3 - Création d'un compte utilisateur.";
 		reponse += System.getProperty("line.separator");
-		reponse += "4 - Quitter.";
+		reponse += "4 - Quitter";
 		out.println(reponse);
 	}
-	
+
 	@Override
-	protected void clientResponse (String response) {
+	protected void clientResponse(String response) {
 		response.trim();
 		int i = Integer.parseInt(response);
-		switch (i){
-		case 1 :
+		switch (i) {
+		case 1:
 			swapAcces(AccesServices.class);
 			break;
-		case 2 :
+		case 2:
 			connexion();
 			break;
-		case 3: 
+		case 3:
 			createAccount();
 			break;
-		case 4: 
+		case 4:
 			exit();
 			break;
 		default:
@@ -51,7 +51,7 @@ public class Connexion extends Acces{
 	}
 
 	private void createAccount() {
-		while (user == null){
+		while (user == null) {
 			Pair<String, String> connectionUser = getUserAndPass();
 			try {
 				user = Serveur.addUser(connectionUser.username, connectionUser.pass);
@@ -62,12 +62,13 @@ public class Connexion extends Acces{
 					return;
 			}
 		}
-		out.println("Vous avez créé votre compte au nom de " + user.getUsername() + " ne perdez pas votre mot de passe!");
+		out.println(
+				"Vous avez créé votre compte au nom de " + user.getUsername() + ", ne perdez pas votre mot de passe!");
 		swapAcces(AccesServices.class);
 	}
 
 	private void connexion() {
-		while (user == null){
+		while (user == null) {
 			Pair<String, String> newUser = getUserAndPass();
 			try {
 				user = Serveur.getUser(newUser.username, newUser.pass);
@@ -80,14 +81,15 @@ public class Connexion extends Acces{
 		}
 		if (user.getClass() == Programmeur.class)
 			swapAcces(AccesProgrammeur.class);
-		else swapAcces(AccesServices.class);
+		else
+			swapAcces(AccesServices.class);
 	}
 
 	@Override
 	protected void welcomeMessage() {
 		String reponse = "Bonjour et bienvenue aux services de connexion.";
 		reponse += System.getProperty("line.separator");
-		out.println(reponse); 
+		out.println(reponse);
 	}
 
 }

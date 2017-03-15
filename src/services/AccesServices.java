@@ -19,7 +19,7 @@ public class AccesServices extends Acces {
 	protected void clientResponse(String i) {
 		i.trim();
 		int nbr;
-		try{
+		try {
 			nbr = Integer.parseInt(i);
 			switch (nbr) {
 			case 1:
@@ -37,7 +37,7 @@ public class AccesServices extends Acces {
 			default:
 				out.println("La reponse " + i + " n'est pas une option valide.");
 			}
-		}catch (NumberFormatException e){
+		} catch (NumberFormatException e) {
 			String[] split = i.split("-");
 			try {
 				Service srv = Serveur.getService(split[0], split[1]);
@@ -47,14 +47,15 @@ public class AccesServices extends Acces {
 				} else {
 					if (srv.isActive()) {
 						clientInCommunication = true;
-						srv.start(client); // Socket à passer en parametre
+						// Socket à passer en parametre
+						srv.start(client);
 						out.println("Vous êtes mis en communication avec le service.");
 					} else {
 						out.println("Le service est inactif");
 					}
 				}
-			} catch (Exception e1) { //<---- Print l'erreur
-				out.println("L'utilisateur concerné n'est pas un programmeur" + e1);
+			} catch (Exception e1) { // <---- Print l'erreur
+				out.println("L'utilisateur concerné n'est pas un programmeur " + e1);
 			}
 		}
 	}
@@ -70,32 +71,29 @@ public class AccesServices extends Acces {
 			reponse += "1 - Devenir programmeur";
 		}
 		reponse += System.getProperty("line.separator");
-		reponse += "2 - Quitter.";
+		reponse += "2 - Quitter";
 		reponse += System.getProperty("line.separator");
 		reponse += System.getProperty("line.separator");
 		reponse += "Voici la liste des services disponibles";
 		reponse += System.getProperty("line.separator");
-		reponse += "Ils s'emploient comme ceci :  Pseudo-service.";
+		reponse += "Ils s'emploient comme ceci :  Pseudo-service";
 		reponse += System.getProperty("line.separator");
 		out.println(reponse);
-
 		showServicesAvailable();
-
 	}
 
 	@Override
 	protected void welcomeMessage() {
 		out.println("Hi! Here are all the services.");
-
 	}
 
-	private void showServicesAvailable (){
+	private void showServicesAvailable() {
 		String reponse = "";
 		for (Map.Entry<String, Amateur> entry : Serveur.getUsers().entrySet()) {
 			if (entry.getValue().getClass() == Programmeur.class) {
 				Programmeur programmeur = (Programmeur) entry.getValue();
 				Vector<Service> services = programmeur.getServices();
-				if (services.size() != 0){
+				if (services.size() != 0) {
 					reponse += System.getProperty("line.separator");
 					reponse += "-- " + programmeur.getUsername() + " --";
 				}

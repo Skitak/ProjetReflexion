@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import utilisateurs.Amateur;
 
-public abstract class Acces implements Runnable{
+public abstract class Acces implements Runnable {
 
 	private boolean inCommunication = true;
 
@@ -15,7 +15,8 @@ public abstract class Acces implements Runnable{
 	protected Amateur user;
 	protected PrintWriter out;
 	protected Scanner in;
-	protected boolean clientInCommunication;	//Si le client parle à un service externe
+	protected boolean clientInCommunication;
+	// Si le client parle à un service externe
 
 	public Acces(Socket socket, Amateur user) {
 		this.client = socket;
@@ -23,21 +24,23 @@ public abstract class Acces implements Runnable{
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new Scanner(socket.getInputStream());
+		} catch (IOException e) {
+			System.err.println("Erreur à la création.");
 		}
-		catch (IOException e) {System.err.println("erreur à la création");}
 	}
 
-	protected void swapAcces (Class<? extends Acces> classe){
+	protected void swapAcces(Class<? extends Acces> classe) {
 		try {
-			classe.getDeclaredConstructor(new Class[]{Socket.class, Amateur.class}).newInstance(client, user).start();
+			classe.getDeclaredConstructor(new Class[] { Socket.class, Amateur.class }).newInstance(client, user)
+					.start();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("erreur à la création de la class");
+			System.err.println("Erreur à la création de la classe.");
 		}
 		inCommunication = false;
 	}
 
-	public void start (){
+	public void start() {
 		new Thread(this).start();
 	}
 
@@ -45,13 +48,12 @@ public abstract class Acces implements Runnable{
 	public void run() {
 		welcomeMessage();
 		String retour;
-		while (inCommunication && !client.isClosed()){
-			if (!clientInCommunication){
+		while (inCommunication && !client.isClosed()) {
+			if (!clientInCommunication) {
 				showServices();
 				retour = read();
 				clientResponse(retour);
-			}
-			else {
+			} else {
 				String rep = "";
 				while (!client.isClosed() && !rep.equals("-end-")) {
 					rep = in.nextLine();
@@ -61,24 +63,23 @@ public abstract class Acces implements Runnable{
 		}
 	}
 
-	protected void exit (){
+	protected void exit() {
 		inCommunication = false;
 		try {
 			client.close();
 			in.close();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	protected String read (){
+	protected String read() {
 		out.flush();
 		return in.nextLine();
 	}
 
-	protected Pair <String, String> getUserAndPass(){
+	protected Pair<String, String> getUserAndPass() {
 		Pair<String, String> user = new Pair<String, String>();
 		out.println("Username : ");
 		user.username = read();

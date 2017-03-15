@@ -12,9 +12,9 @@ public class AccesProgrammeur extends Acces {
 
 	public AccesProgrammeur(Socket socket, Amateur user) {
 		super(socket, user);
-		prog = (Programmeur)user;
+		prog = (Programmeur) user;
 	}
-	
+
 	@Override
 	protected void showServices() {
 		String reponse = "1 - Accéder aux services";
@@ -31,9 +31,9 @@ public class AccesProgrammeur extends Acces {
 		reponse += System.getProperty("line.separator");
 		reponse += "7 - Visioner ses services";
 		reponse += System.getProperty("line.separator");
-		reponse += "8 - Se déconnecter.";
+		reponse += "8 - Se déconnecter";
 		reponse += System.getProperty("line.separator");
-		reponse += "9 - Quitter.";
+		reponse += "9 - Quitter";
 		out.println(reponse);
 
 	}
@@ -42,38 +42,38 @@ public class AccesProgrammeur extends Acces {
 	protected void clientResponse(String s) {
 		s.trim();
 		int i = 0;
-		try{
-		i = Integer.parseInt(s);
+		try {
+			i = Integer.parseInt(s);
 		} catch (Exception e) {
-			//reponse non valide
+			// Reponse non valide
 		}
-		switch (i){
-		case 1 :
+		switch (i) {
+		case 1:
 			swapAcces(AccesServices.class);
 			break;
-		case 2 :
+		case 2:
 			fournirService();
 			break;
-		case 3: 
+		case 3:
 			majService();
 			break;
-		case 4: 
-			changementFTP();	
+		case 4:
+			changementFTP();
 			break;
-		case 5: 
+		case 5:
 			demarrerService();
 			break;
-		case 6: 
+		case 6:
 			arretService();
 			break;
-		case 7: 
+		case 7:
 			visionnerServices();
 			break;
-		case 8: 
+		case 8:
 			user = null;
 			swapAcces(Connexion.class);
 			break;
-		case 9: 
+		case 9:
 			exit();
 			break;
 		default:
@@ -82,8 +82,9 @@ public class AccesProgrammeur extends Acces {
 	}
 
 	private void visionnerServices() {
-		for (int i = 0; i < prog.getServices().size() ; ++i){
-			out.println(i + " - " + prog.getService(i).getName() + " (" + (prog.getService(i).isActive()? "Actif" : "Eteint") +  ")");
+		for (int i = 0; i < prog.getServices().size(); ++i) {
+			out.println(i + " - " + prog.getService(i).getName() + " ("
+					+ (prog.getService(i).isActive() ? "Actif" : "Eteint") + ")");
 		}
 
 	}
@@ -94,11 +95,11 @@ public class AccesProgrammeur extends Acces {
 		out.println(prog.getServices().size() + " - Retour");
 		String resultat = null;
 		int service = -1;
-		while (service < 0 || service > prog.getServices().size()){
+		while (service < 0 || service > prog.getServices().size()) {
 			try {
 				resultat = read();
 				service = Integer.parseInt(resultat);
-			} catch (Exception e){
+			} catch (Exception e) {
 				out.println(resultat + " n'est pas une valeur valide.");
 			}
 		}
@@ -113,20 +114,21 @@ public class AccesProgrammeur extends Acces {
 	}
 
 	private void demarrerService() {
-		out.println("Quel service voulez vous démarer?");
+		out.println("Quel service voulez vous démarrer?");
 		visionnerServices();
 		out.println(prog.getServices().size() + " - Retour");
 		String resultat = null;
 		int service = -1;
-		while (service < 0 || service > prog.getServices().size()){
+		while (service < 0 || service > prog.getServices().size()) {
 			try {
 				resultat = read();
 				service = Integer.parseInt(resultat);
-			} catch (Exception e){
+			} catch (Exception e) {
 				out.println("Ceci n'est pas une valeur valide.");
 			}
 		}
-		if (service == prog.getServices().size()) // Quitter
+		if (service == prog.getServices().size())
+			// Quitter
 			return;
 		if (prog.getService(service).isActive())
 			out.println("Le service est déjà disponible.");
@@ -134,7 +136,6 @@ public class AccesProgrammeur extends Acces {
 			prog.demarrerService(service);
 			out.println("Le service est maintenant disponible.");
 		}
-
 	}
 
 	private void changementFTP() {
@@ -155,10 +156,10 @@ public class AccesProgrammeur extends Acces {
 		out.print(prog.getServices().size() + " - Retour");
 		String resultat = read();
 		int service = -1;
-		while (service < 0 || service > prog.getServices().size()){
+		while (service < 0 || service > prog.getServices().size()) {
 			try {
 				service = Integer.parseInt(resultat);
-			} catch (Exception e){
+			} catch (Exception e) {
 				out.println(resultat + " n'est pas une valeur valide.");
 			}
 		}
@@ -168,7 +169,6 @@ public class AccesProgrammeur extends Acces {
 			prog.updateService(service);
 			out.println("Le service a été mis à jour.");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			out.println(e.getMessage());
 		}
 
@@ -182,7 +182,6 @@ public class AccesProgrammeur extends Acces {
 			out.println("Le service " + service + " a bien été ajouté.");
 			out.println("Pensez à le démarrer! (Les services ne sont pas actifs par défaut).");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			out.println(e.getMessage());
 		}
 
@@ -190,8 +189,7 @@ public class AccesProgrammeur extends Acces {
 
 	@Override
 	protected void welcomeMessage() {
-		out.println("hi you prog");
-
+		out.println("Hi, you prog!");
 	}
 
 }

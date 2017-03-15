@@ -24,7 +24,6 @@ public class Serveur {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		while (true) {
 			try {
 				new Connexion(listenSocket.accept()).start();
@@ -33,7 +32,6 @@ public class Serveur {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public static Service getService(String username, String servicename) throws Exception {
@@ -62,7 +60,7 @@ public class Serveur {
 		if (user == null)
 			throw new Exception("L'utilisateur  " + username + " n'existe pas.");
 		else if (!user.getPassword().equals(pass))// Sha512 dat?
-			throw new Exception("Le mot de pass est incorrect.");
+			throw new Exception("Le mot de passe est incorrect.");
 		return user;
 	}
 

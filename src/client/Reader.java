@@ -1,18 +1,15 @@
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Reader implements Runnable {
 
 	private Socket serveur;
-	private PrintWriter out;
 
-	public Reader(Socket serv, PrintWriter out) {
+	public Reader(Socket serv) {
 		serveur = serv;
-		this.out = out;
 	}
 
 	public void start() {
@@ -22,14 +19,11 @@ public class Reader implements Runnable {
 	@Override
 	public void run() {
 		Scanner in = null;
-
-
 		try {
 			in = new Scanner(serveur.getInputStream());
-
 			while (!serveur.isClosed())
 				System.out.println(in.nextLine());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Fin de la communication avec le serveur.");
 			try {
 				serveur.close();
@@ -38,6 +32,5 @@ public class Reader implements Runnable {
 			}
 		}
 	}
-
 
 }
