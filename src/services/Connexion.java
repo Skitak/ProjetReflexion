@@ -22,7 +22,7 @@ public class Connexion extends Acces {
 		reponse += System.getProperty("line.separator");
 		reponse += "2 - Connexion";
 		reponse += System.getProperty("line.separator");
-		reponse += "3 - Création d'un compte utilisateur.";
+		reponse += "3 - Création d'un compte utilisateur";
 		reponse += System.getProperty("line.separator");
 		reponse += "4 - Quitter";
 		out.println(reponse);
@@ -31,7 +31,12 @@ public class Connexion extends Acces {
 	@Override
 	protected void clientResponse(String response) {
 		response.trim();
-		int i = Integer.parseInt(response);
+		int i = 0;
+		try {
+			i = Integer.parseInt(response);
+		} catch (Exception e) {
+			// Erreur
+		}
 		switch (i) {
 		case 1:
 			swapAcces(AccesServices.class);
@@ -46,7 +51,7 @@ public class Connexion extends Acces {
 			exit();
 			break;
 		default:
-			out.println("La reponse " + i + " n'est pas une option valide.");
+			out.println("La reponse " + response + " n'est pas une option valide.");
 		}
 	}
 
