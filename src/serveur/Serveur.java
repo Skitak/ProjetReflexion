@@ -59,7 +59,7 @@ public class Serveur {
 		Amateur user = users.get(username);
 		if (user == null)
 			throw new Exception("L'utilisateur  " + username + " n'existe pas.");
-		else if (!user.getPassword().equals(pass))// Sha512 dat?
+		else if (!user.getPassword().equals(pass)) // Sha512 dat?
 			throw new Exception("Le mot de passe est incorrect.");
 		return user;
 	}
