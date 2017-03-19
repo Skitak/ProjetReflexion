@@ -2,6 +2,7 @@ package utilisateurs;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.Socket;
 
@@ -9,10 +10,10 @@ import java.net.Socket;
 public class Service implements Comparable {
 
 	private String name;
-	private Class<? extends blti.Service> loadedClass;
+	private Class<?> loadedClass;
 	private boolean isActive = false;
 
-	public Service(String name, Class<? extends blti.Service> loadedClass) throws Exception {
+	public Service(String name, Class<?> loadedClass) throws Exception {
 		verifyClass(loadedClass);
 		this.name = name;
 		this.loadedClass = loadedClass;
@@ -22,12 +23,13 @@ public class Service implements Comparable {
 		return name;
 	}
 
-	public Class<? extends blti.Service> getLoadedClass() {
+	public Class<?> getLoadedClass() {
 		return loadedClass;
 	}
 
 	public void start(Socket client) throws Exception {
-		this.loadedClass.getConstructor(Socket.class).newInstance(client).run();
+		Method run = loadedClass.getDeclaredMethod("run");
+		run.invoke(loadedClass.getConstructor(Socket.class).newInstance(client));
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class Service implements Comparable {
 		return isActive;
 	}
 
-	void verifyClass(Class<? extends blti.Service> loadedClass2) throws Exception {
+	void verifyClass(Class<?> loadedClass2) throws Exception {
 		if (Modifier.isPrivate(loadedClass2.getModifiers()))
 			throw new Exception("La classe est privée et ne respecte donc pas la norme BLTi.");
 
@@ -72,9 +74,17 @@ public class Service implements Comparable {
 		if (!Modifier.isStatic((loadedClass2.getMethod("toStringue", (Class<?>[]) null).getModifiers())))
 			throw new Exception(
 					"La classe ne possède pas de méthode toStringue static et ne respecte donc pas la norme BLTi.");
+		boolean methodRunFound = false;
+		for (Method m : loadedClass2.getDeclaredMethods()){
+			if (m.getName().equals("run") && Modifier.isPublic(m.getModifiers()) && m.getParameterTypes().length == 0)
+				methodRunFound = true;
+		}
+		if (!methodRunFound)
+			throw new Exception(
+					"La classe ne possède pas de méthode \"run\" et ne respecte donc pas la norme BLTi.");
 	}
 
-	void update(Class<? extends blti.Service> loadedClass) throws Exception {
+	void update(Class<?> loadedClass) throws Exception {
 		verifyClass(loadedClass);
 		this.loadedClass = loadedClass;
 	}

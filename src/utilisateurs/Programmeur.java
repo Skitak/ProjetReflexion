@@ -23,9 +23,9 @@ public class Programmeur extends Amateur {
 	public void addService(String nom) throws Exception {
 		if (getService(nom) != null)
 			throw new Exception("Vous avez deja un service à ce nom.");
-		Class<? extends blti.Service> classeChargée = null;
+		Class<?> classeChargée = null;
 		try {
-			classeChargée = (Class<? extends blti.Service>) ftp.loadClass(nom);
+			classeChargée = (Class<?>) ftp.loadClass(nom);
 		} catch (ClassNotFoundException e) {
 			throw new ClassNotFoundException("La class n'a pas été trouvé." + e.getMessage());
 		}
@@ -94,9 +94,9 @@ public class Programmeur extends Amateur {
 
 	@SuppressWarnings("unchecked")
 	public void updateService(int service) throws Exception {
-		Class<? extends blti.Service> loadedClass = null;
+		Class<?> loadedClass = null;
 		try {
-			loadedClass = (Class<? extends blti.Service>) ftp.loadClass(getUsername());
+			loadedClass = (Class<?>) ftp.loadClass(getUsername());
 		} catch (Exception e) {
 			throw new Exception("La class " + getService(service).getName() + " n'a pas été trouvé.");
 		}
